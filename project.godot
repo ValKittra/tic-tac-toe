@@ -11,5 +11,11 @@ config_version=5
 [application]
 
 config/name="tic tac toe"
+run/main_scene="res://tic.tscn"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=700
+window/size/viewport_height=700
