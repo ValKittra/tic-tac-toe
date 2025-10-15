@@ -2,11 +2,24 @@ extends Control
 
 @onready var buttons = $MarginContainer/AspectRatioContainer/GridContainer.get_children()
 
-var current_player
+var player = cell_X
+var computer_player 
+var computer_button
 const tictactoe = ["X", "O"]
 const cell_X = "X"
 const cell_O = "O"
 const cell_zero = ""
+var board = ["", "", "", "", "", "", "", "", ""]
+var wins = [
+	[0, 1, 2],  # top row
+	[3, 4, 5],  # middle row
+	[6, 7, 8],  # bottom row
+	[0, 3, 6],  # left column
+	[1, 4, 7],  # middle column
+	[2, 5, 8],  # right column
+	[0, 4, 8],  # diagonal
+	[2, 4, 6]   # other diagonal
+]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -23,14 +36,36 @@ func _ready() -> void:
 
 func _on_button_click(button_num, button) -> void:
 	#button.text = tictactoe.pick_random()
-	button.text = current_player
+	button.text = player
 	#playing in turns, two players
-	current_player = cell_X if current_player == cell_O else cell_O
 	button.disabled = true
+	check_for_win()
+	computer_play()
 	
-	
+
+func computer_play():
+
+	var available_buttons = []
+	for b in buttons:
+		if not b.disabled:
+			available_buttons.append(b)
+
+	if available_buttons.is_empty():
+		return
+
+	var computer_button = available_buttons.pick_random()
+	computer_button.text = cell_O
+	computer_button.disabled = true
+		
+func check_for_win():
+	for combo in wins:
+		if board[combo[0]] != "" and board[combo[0]] == board[combo[1]] and board[combo[1]] == board[combo[2]]:
+			print("win")
+			return true
+	return false
+
 func reset_game():
-	current_player = cell_X
+	pass
 	
 
 
